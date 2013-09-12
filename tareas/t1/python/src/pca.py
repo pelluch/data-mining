@@ -26,6 +26,7 @@ def pca(dataset):
     sorted(tuples)
     first_pc = tuples[0][1]
     second_pc = tuples[1][1]
+    print(first_pc)
     
     # Datos proyectados en distintas direcciones
     projected_data_1 = [[], [], []]
