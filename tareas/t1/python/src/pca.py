@@ -2,12 +2,17 @@ import sys
 from plot import *
 from matplotlib import pyplot
 from numpy import *
+import common
 
-def pca(data, labels, labels_map):
+def pca(dataset):
     
     colors = ['r', 'g', 'b']
     
+    labels = dataset[1]
+    label_names = dataset[2]
     # Obtenemos el promedio de cada columna
+    
+    (separated_data, tranposed, data) = common.separate_data(dataset)
     means = data.mean(0)
     std_data = data - means;
     # Obtenemos la matriz de covarianza
@@ -27,10 +32,10 @@ def pca(data, labels, labels_map):
     projected_data_2 = [[], [], []]
     
     for idx, row in enumerate(data):        
-        projected_data_1[labels_map[labels[idx]]].append(dot(row,first_pc))
+        projected_data_1[label_names.index(labels[idx])].append(dot(row,first_pc))
     
     for idx, row in enumerate(data):        
-        projected_data_2[labels_map[labels[idx]]].append(dot(row,second_pc))
+        projected_data_2[label_names.index(labels[idx])].append(dot(row,second_pc))
 
     label_names = [ 'Iris-setosa' , 'Iris-versicolor' , 'Iris-virginica' ]
     

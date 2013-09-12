@@ -3,7 +3,7 @@ from plot import *
 from pca import * 
 from fischer import *
 
-def main(argv=None):
+def read_data():
     
     # Lectura de archivo
     f = open('../../data/iris.data', 'r')
@@ -11,39 +11,49 @@ def main(argv=None):
     f.close()
     
     data = []
-    separated_data = [[], [], []] # Lista de matrices
-    labels_map = { 'Iris-setosa' : 0, 'Iris-versicolor' : 1, 'Iris-virginica' : 2 }
-    #labels = [0, 1, 2]
     labels = []
+    label_names = []
+    
     for line in lines:
         line = line.rstrip()    # Le quitamos el endline
         separated = line.split(',') # Separacion de atributos
         
         if len(separated) > 1: # Necesario porque hay una linea en blanco al final
-            current_instance = separated[0:4] # Separamos los datos del label
-            current_instance = [float(i) for i in current_instance] # Transformacion a float
+            instance = separated[0:4] # Separamos los datos del label
+            instance = [float(i) for i in instance] # Transformacion a float
             label = separated[4]
+            
+            if label not in label_names:
+                label_names.append(label)
+                
             labels.append(label)
-            data.append(array(current_instance))
-            separated_data[labels_map[label]].append(array(current_instance))
+            data.append(instance) # Transformacion a array de numpy
     
-    separated_data = [array(row) for row in separated_data]
-    data = array(data)
+    #data = array(data)
+    return (data, labels, label_names)
+    
+def main(argv=None):
+    
+    # Lectura de archivo
+    f = open('../../data/iris.data', 'r')
+    lines = f.readlines()
+    f.close()
+    
+    dataset = read_data()
     
     choice = ''
     while choice != 4:
-        choice = input('1. Plot data\n2. PCA analysis\n3. Exit\n')
+        choice = input('1. Plot data\n2. PCA analysis\n3. Fisher\n4. Exit\n')
         if choice == 1:
-            plot(separated_data)
+            plot(dataset)
         elif choice == 2:
-            pca(data, labels, labels_map)
+            pca(dataset)
         elif choice == 3:
-            fischer(data, labels, labels_map)       
+            fischer(dataset)       
         elif choice == 4:
             return
         else:
-            print('Invalid input. Try again.')
-        
+            print('Invalid input. Try again.')        
 
 if __name__ == "__main__":
     sys.exit(main())

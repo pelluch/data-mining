@@ -1,23 +1,19 @@
 import sys
 from matplotlib import pyplot
 from numpy import *
+import common
+from common import separate_data
 
-def separate_by_class(data, labels):
-    separated_data = [[], [], []]
-    labels_map = { 'Iris-setosa' : 0, 'Iris-versicolor' : 1, 'Iris-virginica' : 2 }
-    
-    for i in xrange(len(labels)):
-        separated_data[labels_map[labels[i]]].append(data[i])
-    
-    return separated_data
+# Colores hardcodeados del grafico resultante
+colors = ['r', 'g', 'b']      
 
-def plot(data):
+# atributos, labels, nombre de los labels
+def plot(dataset):
     
-    # Colores hardcodeados del grafico resultante
-    colors = ['r', 'g', 'b']        
-    plot_data = [row.transpose() for row in data]
+    (separated_data, plot_data, numpy_data) = common.separate_data(dataset)
     
-    for i in xrange(0,3): # Primer atributo = 1,2,3
+    
+    for i in xrange(0, 3): # Primer atributo = 1,2,3
         for j in xrange(i+1, 4): # Segundo atributo = 2,3,4
             for k in xrange(0, len(plot_data)): # Para cada clase
                 pyplot.plot(plot_data[k][i], plot_data[k][j], 'o' + colors[k])
