@@ -1,6 +1,7 @@
 from numpy import array
 from plot import *
 from pca import * 
+from fischer import *
 
 def main(argv=None):
     
@@ -30,13 +31,15 @@ def main(argv=None):
     data = array(data)
     
     choice = ''
-    while choice != 3:
+    while choice != 4:
         choice = input('1. Plot data\n2. PCA analysis\n3. Exit\n')
         if choice == 1:
             plot(separated_data)
         elif choice == 2:
-            pca(data, labels)
+            pca(data, labels, labels_map)
         elif choice == 3:
+            fischer(data, labels, labels_map)       
+        elif choice == 4:
             return
         else:
             print('Invalid input. Try again.')

@@ -3,7 +3,9 @@ from plot import *
 from matplotlib import pyplot
 from numpy import *
 
-def pca(data, labels):
+def pca(data, labels, labels_map):
+    
+    colors = ['r', 'g', 'b']
     
     # Obtenemos el promedio de cada columna
     means = data.mean(0)
@@ -19,34 +21,39 @@ def pca(data, labels):
     sorted(tuples)
     first_pc = tuples[0][1]
     second_pc = tuples[1][1]
-    projected_data = [[], []]
     
-    for instance in data:
-        projected_data[0].append(dot(first_pc, instance))
+    # Datos proyectados en distintas direcciones
+    projected_data_1 = [[], [], []]
+    projected_data_2 = [[], [], []]
     
-    for instance in data:
-        projected_data[1].append(dot(second_pc, instance))
-        
-        
-    separated_data = [[], [], []]
-    #print projected_data
-    labels_map = { 'Iris-setosa' : 0, 'Iris-versicolor' : 1, 'Iris-virginica' : 2 }
+    for idx, row in enumerate(data):        
+        projected_data_1[labels_map[labels[idx]]].append(dot(row,first_pc))
     
-    for i in xrange(len(labels)):
-        separated_data[labels_map[labels[i]]].append(projected_data[labels_map[labels[i]]])
-        
+    for idx, row in enumerate(data):        
+        projected_data_2[labels_map[labels[idx]]].append(dot(row,second_pc))
+
+    label_names = [ 'Iris-setosa' , 'Iris-versicolor' , 'Iris-virginica' ]
     
+    # Ploteo con solo un PC
+    for i in xrange(len(colors)-1):
+        for j in xrange(i+1, len(colors)):            
+            pyplot.plot(projected_data_1[i], zeros(len(projected_data_1[i])), 'o' + colors[i])
+            pyplot.plot(projected_data_1[j], zeros(len(projected_data_1[j])), 'o' + colors[j])
+            print('Clase ' + colors[i] + ": " + label_names[i])
+            print('Clase ' + colors[j] + ": " + label_names[j])
+            pyplot.show()
     
-    print separated_data
-    #------------------------------------------------------ print separated_data
-    #-------------------------------------- pyplot.plot(separated_data[0], 'ro')
-    #-------------------------------------- pyplot.plot(separated_data[1], 'go')
-    #-------------------------------------- pyplot.plot(separated_data[2], 'bo')
-    #------------------------------------------------------------- pyplot.show()
-    #print separate_by_class(projected_data, labels)[0]
-    #print labels
+    # Dos PC
+    for i in xrange(len(colors)-1):
+        for j in xrange(i+1, len(colors)):
+            pyplot.plot(projected_data_1[i], projected_data_2[i], 'o' + colors[i])
+            pyplot.plot(projected_data_1[j], projected_data_2[j], 'o' + colors[j])
+            print('Clase ' + colors[i] + ": " + label_names[i])
+            print('Clase ' + colors[j] + ": " + label_names[j])
+            pyplot.show()
     
-    #print tuples
-    
-    #for vector in vectors:
-    #print cov_mat
+    # Igual que lo anterior, pero con 3 clases
+    for i in xrange(len(colors)):
+        pyplot.plot(projected_data_1[i], projected_data_2[i], 'o' + colors[i])
+        print('Clase ' + colors[i] + ": " + label_names[i])
+    pyplot.show()
