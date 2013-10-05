@@ -1,0 +1,12 @@
+#!/bin/bash
+
+cp -r t1 07630425_pablo_lluch_t1
+rm -rf 07630425_pablo_lluch_t1/python/bin
+rm 07630425_pablo_lluch_t1/python/.classpath
+rm 07630425_pablo_lluch_t1/python/.project
+rm 07630425_pablo_lluch_t1/python/.pydevproject
+zip -r 07630425_pablo_lluch_t1 07630425_pablo_lluch_t1
+rm -rf 07630425_pablo_lluch_t1
+mv 07630425_pablo_lluch_t1.zip $HOME/
+
+dolphin $HOME
