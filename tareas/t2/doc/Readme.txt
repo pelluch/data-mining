@@ -1,1 +1,1 @@
-Readme
+La tarea requiere tener una versión no superior de scikit-learn 0.13.1 en pythonpath para ejecutarse, y la libería Pretty Table que se usa para imprimir las tablas.
