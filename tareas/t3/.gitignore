@@ -1,0 +1,5 @@
+doc/*.aux
+doc/*.log
+doc/report.pdf
+src/java/HECL/bin
+src/java/HECL/input
